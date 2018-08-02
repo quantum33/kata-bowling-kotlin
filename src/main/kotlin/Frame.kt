@@ -50,19 +50,14 @@ class Frame {
 
     internal fun isEligibleForExtraBall() = isTenthFrame() && (isStrike() || isSpare())
 
-    internal fun getBonus(nextFrame: Optional<Frame>): Int {
-
-        return if (this.isStrike() && nextFrame.get().isTenthFrame()) {
-
+    internal fun getBonus(nextFrame: Optional<Frame>): Int =
+        if (this.isStrike() && nextFrame.get().isTenthFrame()) {
             nextFrame.get().rolls.take(2).sumBy { it.downPinCount }
         } else if (this.isStrike() && nextFrame.get().notIsTenthFrame()) {
-
             nextFrame.get().rolls.sumBy { it.downPinCount }
         } else if (this.isSpare()) {
-
             nextFrame.get().rolls.firstOrNull()?.downPinCount ?: 0
         } else 0
-    }
 
     private fun getDownPinCount(): Int = rolls.sumBy { it.downPinCount }
 
